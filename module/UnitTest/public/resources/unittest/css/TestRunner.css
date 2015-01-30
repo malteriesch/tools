@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+
+body * { font-family: sans-serif; }
+
+
+
+ .passed{
+ background-color:lightgreen; 
+ }
+ .failed{
+ background-color:red;
+ }
+.selected{
+ background-color:#dddddd;
+ }
+ 
+ .running{
+ background-color:yellow;
+ }
+ 
+ .hidden{
+ 	display:none;
+ }
+ 
+ #thetests tr td,  #thetests th{
+ 	border-left:1px dotted black;
+ 	border-bottom:1px dotted black;
+ 	padding:3px;
+ 	font-size:12px;
+ }
+ #thetests table {
+ margin-bottom:10px;
+ }
+ 
+ th#status_header{
+ 	width:100px;
+ 	
+ }
+ 
+ #pic{
+ float:left;
+ }
+ 
+ .buttons {
+ padding-top:20px;
+ padding-left:10px;
+ float:left;
+ width:400px;
+ 
+ }
+ 
+ #thetests{
+ 	clear:both;
+ 	height:450px;
+ 	overflow:auto;
+ 	width:1250px;
+ }
+ 
+ #instructions {
+ float:left;
+ margin-left:20px;
+ margin-bottom:10px;
+ }
+ 
+ #test_stats {
+ 	margin:10px;
+ 	padding:5px;
+ 	float:left;
+ 	border:1px solid black;
+ 	width:160px;
+ }
+ 
+ #test_stats table th, #test_stats table td {
+ 	text-align:left;
+ 	font-size:14px;
+ }
+ 
+ #test_stats table td  {
+ padding-left:5px;
+ }
+ 
+ .failure_messages {
+ 	border:1px solid black;
+ 	background-color: #fff;
+  	width:400px;
+  	height:350px;
+  	overflow:auto;
+  	position:absolute;
+  	padding:5px;
+ }
+ 
+ .fix_position{
+ position:relative;
+ }

@@ -1,0 +1,16 @@
+<?php echo $this->form()->openTag($this->form); ?>
+<table class="table" id="assetRequirements">
+    <tr>
+        <th>Serialised String</th>
+        <th><?php echo $this->FormTextArea($this->form->get('code')); ?></th>
+    </tr>
+</table>
+<button type="submit" class="btn btn-primary">Go</button>
+<?php
+echo $this->form()->closeTag($this->form);
+?>
+
+<pre>
+
+<?php echo $this->result ?>
+</pre>

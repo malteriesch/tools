@@ -1,0 +1,20 @@
+<?php echo $this->form()->openTag($this->form); ?>
+<table class="table" id="assetRequirements">
+    <tr>
+        <th>Variable</th>
+        <th><?php echo $this->FormText($this->form->get('variable')); ?></th>
+    </tr>
+    <tr>
+        <th>Sql</th>
+        <th><?php echo $this->FormTextArea($this->form->get('sql')); ?></th>
+    </tr>
+</table>
+<button type="submit" class="btn btn-primary">Go</button>
+<?php
+echo $this->form()->closeTag($this->form);
+?>
+
+<pre>
+    
+<?php echo $this->result ?>
+</pre>

@@ -1,0 +1,136 @@
+<?php
+$escaper = new Zend\Escaper\Escaper('utf-8');
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Jasmine Spec Runner</title>
+
+        <link rel="shortcut icon" type="image/png" href="/js/jasmine/lib/jasmine_favicon.png">
+        <link rel="stylesheet" type="text/css" href="/js/jasmine/lib/jasmine.css">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+        <script src="/js/jquery.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <style>
+            td.response div.popover{width:420px;}
+            td.response  div.popover-content{
+                width:400px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="#">Jasmine Test</a>
+                <ul  class="nav">
+                    <li><a href="#" id="allTest">Run All Test</a></li>
+                    <li><a href="#" id="selectedTest">Run Selected Test</a></li>
+                    <li><a href="#" id="selectedPassedTest" class="btn-success" style="color:#fff;text-shadow:0 1px 0 #777">Re-Run Passed Test</a></li>
+                    <li><a href="#" id="selectFailedTest" class="btn-danger" style="color:#fff;text-shadow:0 1px 0 #777">Re-Run Failed Test</a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table "> 
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Spec File</th>    
+                <th>Detail</th>
+            </tr>
+            <tbody id='test-container'>
+                <?php foreach ($specFiles as $spec): ?>
+                    <tr id='<?php echo substr($spec, 0, strlen($spec) - 3) ?>' data-file='<?php echo $spec; ?>'>
+                        <td style="width:10px;text-align:center">
+                            <input type="checkbox" name="checkbox[]" value="<?php echo substr($spec, 0, strlen($spec) - 3); ?>" />
+                        </td>
+                        <td class="span2">
+                            <a  href="jasmineStandalone?file=<?php echo $spec; ?>" target="_blank">
+                                [run stand alone]
+                            </a>
+                        </td>
+                        <td  class="span6">
+                            <?php echo $spec; ?>
+                        </td> 
+                        <td class="span4 response">
+
+                        </td>
+
+                    </tr>
+            <?php endforeach; ?><target name="js_unit_test" depends="getProps" description="Runs Javascript Unit Tests">
+                <exec executable="${basedir}/tests/js/bin/phantomjs/bin/phantomjs" failonerror="true">
+                    <arg line="${basedir}/ " />
+                    <arg line="${testUrl}unittest/jasmine" />
+                </exec>
+            </target>
+
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        function addPopover(motherDiv, error)
+        {
+            var popoverId = motherDiv.substr(1) + '-popover';
+            var popoverElement = '<a id="' + popoverId + '" href="#">[Error]</a>';
+            $(motherDiv + ' td.response').html(popoverElement);
+
+            $(motherDiv + '-popover').popover({
+                html: false,
+                content: error,
+                placement: 'bottom',
+                title: 'Error'
+            });
+
+        }
+        $('#allTest').click(function(e) {
+            e.preventDefault();
+            $("#test-container tr").each(function(index) {
+                runBatch(this.id, $(this).data("file"));
+            });
+
+        });
+        $('#selectedTest').click(function(e) {
+            e.preventDefault();
+
+            $('input[type=checkbox]:checked').each(function(index) {
+                runBatch(this.value, this.value + '.js');
+            });
+        });
+        $('#selectedPassedTest').click(function(e) {
+            e.preventDefault();
+            $(".alert-success").each(function(index) {
+                runBatch(this.id, $(this).data("file"));
+            });
+        });
+        $('#selectFailedTest').click(function(e) {
+            e.preventDefault();
+            $(".alert-danger").each(function(index) {
+                runBatch(this.id, $(this).data("file"));
+            });
+        });
+        function runBatch(currentSpec, filename) {
+            $('#' + currentSpec).removeClass('alert-success');
+            $('#' + currentSpec).removeClass('alert-danger');
+            $('#' + currentSpec).addClass('alert');
+            $.ajax({
+                url: "jasmineBatch?file=" + filename,
+                async: false,
+                dataType: 'json'
+            }).success(function(response) {
+                $('#' + currentSpec).removeClass('alert');
+                $('#' + currentSpec).addClass('alert-' + response.result);
+                if (response.result == 'success') {
+                    $('#' + currentSpec + ' td.response').text(response.detail);
+                }
+                else {
+                    addPopover('#' + currentSpec, response.detail);
+                }
+
+            });
+
+        }
+    });
+</script>

@@ -1,0 +1,28 @@
+
+<?php echo $this->form()->openTag($this->form); ?>
+<table class="table" id="assetRequirements">
+    <tr>
+        <th>Db</th>
+        <th><?php echo $this->FormSelect($this->form->get('database')); ?></th>
+    </tr>
+    <tr>
+        <th>Sql</th>
+        <th><?php echo $this->FormTextArea($this->form->get('sql')); ?></th>
+    </tr>
+    <tr>
+        <th>Replacements</th>
+        <th><?php echo $this->FormTextArea($this->form->get('replacements')); ?></th>
+    </tr>
+    <tr>
+        <th>Exclude</th>
+        <th><?php echo $this->FormText($this->form->get('exclude')); ?></th>
+    </tr>
+</table>
+<button type="submit" class="btn btn-primary">Go</button>
+<?php
+echo $this->form()->closeTag($this->form);
+?>
+<pre style="overflow:scroll;">
+    
+<?php echo $this->result ?>
+</pre>

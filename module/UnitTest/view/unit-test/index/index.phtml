@@ -1,0 +1,90 @@
+
+
+<html>
+    <head>
+        <title>Test Runner</title>
+        <link rel="stylesheet" type="text/css" href="resources/unittest/css/TestRunner.css">
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="resources/unittest/js/TestRunner.js"></script>
+    </head>
+    <body>
+    <img id="pic" src="resources/unittest/images/default.jpg"  width="124" height="105" />
+    <form>
+    <div class="buttons"><input type="button" value="Run Selected Tests" onclick="PerformSelectedTests()" />
+        <input type="button" value="Stop Tests" onclick="StopTests()" />
+        <br/><br/>
+        <input type="button" value="Re-run All Passed Tests" onclick="ReRunPassedTests()" />
+        <input type="button" value="Re-run All Failed Tests" onclick="ReRunFailedTests()" />
+        <br/><br/>
+        <input type="button" value="Deselect All" onclick="ResetTests()" />
+        <input type="button" value="Select All" onclick="SelectAllTests()" />
+        <br/><br/>
+        Click on any of the tests to select/deselect them
+        
+    </div>
+    <div style="width:700px;float:left;">
+        Select By Regular Expression <input type="text" id="select_expression">
+        <input type="button" onclick="selectByExpression()" value="select"/>
+        <input type="button" onclick="deselectByExpression()" value="deselect"/>
+        <input type="button" onclick="runByExpression()" value="Run"/>
+		<div style="width:400px;float:left;">
+		      <input type="button" value="Apply patches" onclick="syncDb()" /> 
+			  <input type="button" value="Drop And Rebuild Database" onclick="reBuildDb()" />
+		        <div id="dbsync" style="margin-top:20px;">
+		        </div>
+		    </div>
+
+    </div>
+
+
+
+    <div id="test_stats">
+    <table cellpadding="0" cellspacing="0">
+    <tr><th>Test Classes</th><td> <?= count( $this->testFiles ) ?></td></tr>
+    <tr><th>Total Passes</th><td id="total_passes"> 0 </td></tr>
+    <tr><th>Total Failures</th><td id="total_failures"> 0 </td></tr>
+    <tr><th>Tests Ran</th><td id="total_tests"> 0 </td></tr>
+    </table>
+        
+    </div>
+    <input type="button" onclick="window.open('/unittest/jasmine')" value="Open Jasmine Tests"/>
+
+
+
+        <div id="thetests">
+        <table cellspacing="0" cellpadding="0">
+        <tr>
+        <th></th>
+        <th>Name</th>
+        <th id="status_header">Status</th>
+        <th>Failure Details</th>
+        <th>Passes</th>
+        <th>Failures</th>
+        </tr>
+
+        <?php
+        foreach( $this->testFiles as $iId => $sTest ) { ?>
+        <tr class="selected" id="testrow<?= $iId ?>">
+            <td><a id="focus<?= $iId ?>" href="unittest/standalone?test=<?= $sTest?>" target="_new"> [run stand alone]</a> </td>
+            <td onclick="toggle(<?= $iId ?>)">
+            <input class="test"  type="hidden" value="<?= $iId ?>"/>
+            <input  type="hidden" id="test<?= $iId ?>"  value="<?= $sTest ?>"/>
+
+                <?= $sTest?></td>
+            <td id="status<?= $iId ?>">&nbsp;</td>
+
+            <td><a href="javascript:;" onclick="toggleFailures(<?= $iId ?>)">Show/Hide</a><div class="fix_position"><div class="hidden failure_messages" id="results<?= $iId ?>"></div></div></td>
+            <td><div id="number_passes<?= $iId ?>">&nbsp;</div></td>
+            <td><div id="number_failures<?= $iId ?>">&nbsp;</div></td>
+             </tr>
+        <?php
+        }
+        ?>
+        </table>
+        </div>
+
+
+        </form>
+
+    </body>
+</html>
